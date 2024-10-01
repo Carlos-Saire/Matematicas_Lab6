@@ -5,6 +5,14 @@ namespace Mathematics.Week6
 {
     public class PlaneController : MonoBehaviour
     {
+        [Header("Limites")]
+        [SerializeField] private float MinXDirection;
+        [SerializeField] private float MaxXDirection;
+        float CurrentPositionX;
+        [SerializeField] private float MinYDirection;
+        [SerializeField] private float MaxYDirection;
+        float CurrentPositionY;
+
         [Header("Controls Properties")]
         [SerializeField] private float pitchPlane;
         [SerializeField] private float pitchGain = 1f;
@@ -24,7 +32,12 @@ namespace Mathematics.Week6
 
         protected float _pitchDirection = 0f;
         protected float _rollDirection = 0f;
-
+        private void Update()
+        {
+            CurrentPositionX = Math.Clamp(transform.position.x, MinXDirection, MaxXDirection);
+            CurrentPositionY = Math.Clamp(transform.position.y, MinYDirection, MaxYDirection);
+            transform.position =new Vector2( CurrentPositionX,CurrentPositionY);
+        }
         private void FixedUpdate()
         {
             pitchPlane += _pitchDirection * pitchGain;
@@ -72,7 +85,7 @@ namespace Mathematics.Week6
 
         private Rigidbody _myRB;
 
-        private void Start()
+        private void Awake()
         {
             _myRB = GetComponent<Rigidbody>();
         }
@@ -90,7 +103,6 @@ namespace Mathematics.Week6
         {
             if (_verticalDirection == 0 && _horizontalDirection == 0)
             {
-                transform.rotation = Quaternion.identity;
                 _myRB.velocity = Vector3.zero;
             }
             else
@@ -99,7 +111,6 @@ namespace Mathematics.Week6
             }
         }
     }
-
     [System.Serializable]
     public struct MinMax
     {
