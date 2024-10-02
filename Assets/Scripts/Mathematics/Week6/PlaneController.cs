@@ -32,6 +32,12 @@ namespace Mathematics.Week6
 
         protected float _pitchDirection = 0f;
         protected float _rollDirection = 0f;
+
+        public static event Action<int> EventLife;
+        private void ActiveEventLife()
+        {
+            EventLife?.Invoke(1);
+        }
         private void Update()
         {
             CurrentPositionX = Math.Clamp(transform.position.x, MinXDirection, MaxXDirection);
@@ -63,17 +69,17 @@ namespace Mathematics.Week6
 
             //multiplicación y -> x -> z
             r = qy * qx * qz;
-
-            transform.rotation = r;
-
             CheckImput();
+            transform.rotation = r;
+            
+
+
         }
         //Pitch -> X Axis
         public void RotatePitch(InputAction.CallbackContext context)
         {
             _pitchDirection = context.ReadValue<float>();
         }
-
         //Roll -> Z Axis
         public void RotateRoll(InputAction.CallbackContext context)
         {
@@ -89,7 +95,6 @@ namespace Mathematics.Week6
         {
             _myRB = GetComponent<Rigidbody>();
         }
-
         public void TranslateVertical(InputAction.CallbackContext context)
         {
             _verticalDirection = context.ReadValue<float>();
@@ -104,10 +109,19 @@ namespace Mathematics.Week6
             if (_verticalDirection == 0 && _horizontalDirection == 0)
             {
                 _myRB.velocity = Vector3.zero;
+      
+                r = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.fixedDeltaTime * 2f);
             }
             else
             {
                 _myRB.velocity = new Vector3(_horizontalDirection * velocitySpeed, -_verticalDirection * velocitySpeed, 0f);
+            }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Basura"))
+            {
+                ActiveEventLife();
             }
         }
     }
