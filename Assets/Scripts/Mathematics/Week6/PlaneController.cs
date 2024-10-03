@@ -88,7 +88,6 @@ namespace Mathematics.Week6
         private float _verticalDirection = 0f;
         private float _horizontalDirection = 0f;
         [SerializeField] private float velocitySpeed = 5f;
-
         private Rigidbody _myRB;
 
         private void Awake()
@@ -109,7 +108,6 @@ namespace Mathematics.Week6
             if (_verticalDirection == 0 && _horizontalDirection == 0)
             {
                 _myRB.velocity = Vector3.zero;
-      
                 r = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.fixedDeltaTime * 2f);
             }
             else
@@ -122,6 +120,7 @@ namespace Mathematics.Week6
             if (other.gameObject.CompareTag("Basura"))
             {
                 ActiveEventLife();
+                Destroy(other.gameObject);
             }
         }
     }

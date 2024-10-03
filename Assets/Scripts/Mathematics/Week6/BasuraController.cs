@@ -2,12 +2,12 @@ using UnityEngine;
 using System;
 public class BasuraController : MonoBehaviour
 {
-    private Rigidbody rigidbody;
+    private Rigidbody Rd;
     [SerializeField] private float speed;
     public static event Action eventBullet;
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        Rd = GetComponent<Rigidbody>();
     }
     private void Update()
     {
@@ -22,7 +22,7 @@ public class BasuraController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rigidbody.velocity = new Vector3(rigidbody.velocity.x, rigidbody.velocity.y, -speed);
+        Rd.velocity = new Vector3(Rd.velocity.x, Rd.velocity.y, -speed);
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
         }
         ActiveEventLife();
     }
+    public void Clouse()
+    {
+        Application.Quit();
+        Debug.Log("Saliste");
+    }
     private void ActiveEventLife()
     {
         EventLife?.Invoke(life);
